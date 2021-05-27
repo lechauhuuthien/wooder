@@ -1,0 +1,454 @@
+// css components
+.caption {
+    --mw: 440px;
+    --szTitle: 40px;
+    --mb: 10px;
+    --szSubTitle: 16px;
+    max-width: var(--mw);
+    color: $text-cl;
+    & > h2 {
+        @include text(var(--szTitle), pb, normal, 0.7px);
+        text-transform: uppercase;
+
+        margin-bottom: var(--mb);
+    }
+    & > p {
+        @include text(var(--szSubTitle), pr, 22px, 0.25px);
+    }
+    &-reverse {
+        color: $white-cl;
+    }
+    @include sm {
+        --szTitle: 32px;
+        --mb: 20px;
+        --szSubTitle: 15px;
+    }
+    @include xs {
+        --szTitle: 25px;
+        --mb: 15px;
+    }
+}
+
+.article {
+    --pbThumb: calc(65%);
+    --mtInfo: 35px;
+    --wLine: 80px;
+    --hLine: 3px;
+    --mwTitle: 260px;
+    --mhTitle: 50px;
+    --mbTitle: 8px;
+    --szTitle: 18px;
+    --szSum: 15px;
+    --mwSum: 280px;
+    display: none;
+    &-item {
+        &__thumb {
+            display: block;
+            @include box(100%, 0);
+            padding-bottom: var(--pbThumb);
+            overflow: hidden;
+            position: relative;
+            & > img {
+                @include midImg;
+                max-width: 100%;
+            }
+        }
+        &__info {
+            margin-top: var(--mtInfo);
+            color: $black-cl;
+            &::before {
+                content: "";
+                display: block;
+                @include box(var(--wLine), var(--hLine));
+                background: $yellow-cl;
+                transform: translateY(calc(var(--mtInfo) / 2 * -1));
+            }
+            &-title {
+                max-width: var(--mwTitle);
+                min-height: var(--mhTitle);
+                margin-bottom: var(--mbTitle);
+
+                @include text(var(--szTitle), pb, 24px, 0.2px);
+                text-transform: uppercase;
+            }
+            &-summary {
+                @include text(var(--szSum), pr, 20px, 0.25px);
+                @include overtext(3);
+                max-width: var(--mwSum);
+            }
+        }
+    }
+    &.--active {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 20px;
+    }
+    @include sm {
+        --pbThumb: 60%;
+        --mtInfo: 40px;
+        --wLine: 70px;
+        --hLine: 2px;
+        --mwTitle: 100%;
+        --mhTitle: 50px;
+        --mbTitle: 5px;
+        --szTitle: 16px;
+        --szSum: 15px;
+        --mwSum: 100%;
+    }
+    @include xs {
+        &.--active {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            grid-template-rows: repeat(3, auto);
+            column-gap: 20px;
+        }
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(3, auto);
+        column-gap: 20px;
+        --pbThumb: 60%;
+        --mtInfo: 40px;
+        --wLine: 18%;
+        --hLine: 2px;
+        --mwTitle: 100%;
+        --mhTitle: fit-content;
+        --mbTitle: 5px;
+        --szTitle: 16px;
+        --szSum: 15px;
+        --mwSum: 100%;
+    }
+}
+
+.slider {
+    --h2Fz: 84px;
+    --mbText: 20px;
+    --height: 100vh;
+    width: 100vw;
+    height: var(--height);
+    position: relative;
+    overflow: hidden;
+    &__item {
+        display: block;
+        @include box(100%);
+        position: relative;
+        &-wrap {
+            @include box(100%);
+        }
+        &-textbox {
+            @include mid(abs);
+            @include mid(flx);
+            flex-direction: column;
+            z-index: 2;
+            & > h2 {
+                @include text(var(--h2Fz), pb, normal, 15px);
+                text-transform: uppercase;
+                color: $yellow-cl;
+                margin-right: -15px;
+
+                margin-bottom: var(--mbText);
+
+                opacity: 0;
+                transform: translateX(-20%);
+                transition: all 0.5s ease-in-out;
+                transition-delay: 0.3s;
+            }
+            & > a {
+                opacity: 0;
+                transform: translateX(20%);
+                transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+                transition-delay: 0.3s;
+            }
+        }
+        & > img {
+            @include midImg;
+        }
+        &.is-selected {
+            .slider__item-textbox {
+                & > h2 {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                & > a {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        }
+    }
+    &__bottom {
+        --mb: 30px;
+        position: absolute;
+        bottom: var(--mb);
+        left: 0;
+        right: 0;
+        & > .container-fluid {
+            @include flex(space-between, flex-end);
+            position: relative;
+        }
+        &-paging {
+            @include mid(flx);
+        }
+        &-scrolldown {
+            @include mid(flx);
+            flex-direction: column;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            @include transform(translateX(-50%));
+            & i:first-child {
+                margin-bottom: 10px;
+            }
+
+            @include keyframes(scrolldown) {
+                0% {
+                    @include transform(translateY(0));
+                    opacity: 0;
+                    @include transition($t);
+                }
+                100% {
+                    @include transform(translateY(30px));
+                    opacity: 1;
+                    @include transform($t);
+                }
+            }
+            & i:last-child {
+                @include animation(scrolldown 1s ease forwards infinite);
+            }
+        }
+        &-control {
+            display: flex;
+        }
+    }
+    @include sm {
+        --h2Fz: 74px;
+        --mbText: 10px;
+    }
+    @include xs {
+        --h2Fz: 40px;
+        --mbText: 5px;
+        --height: 80vh;
+        &__bottom {
+            .container-fluid {
+                justify-content: center;
+            }
+            &-paging {
+                .number {
+                    display: none;
+                }
+            }
+            &-scrolldown {
+                display: none;
+            }
+            &-control {
+                display: none;
+            }
+        }
+    }
+    @include xxs {
+        --h2Fz: 40px;
+        --mbText: 5px;
+        &__bottom {
+            &-scrolldown {
+                display: none;
+            }
+        }
+    }
+}
+.card {
+    --szText: 47%;
+    --szImg: 53%;
+    --mwText: 515px;
+    --pbImg: 35%;
+    @include box(100%, auto);
+    max-width: 100%;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    &__text {
+        @include box(var(--szText), auto);
+        max-width: var(--mwText);
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    &__image {
+        @include box(var(--szImg), 0);
+        max-width: var(--szImg);
+        padding-bottom: var(--pbImg);
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+        & > img {
+            @include midImg;
+        }
+    }
+    &.--reverse {
+        flex-direction: row-reverse;
+        & > .card__text {
+            justify-content: flex-end;
+        }
+    }
+    &.--center {
+        flex-direction: row-reverse;
+        & > .card__text {
+            & > .title {
+                padding-left: 70px;
+                & > .title__main {
+                    &::before {
+                        left: -30px;
+                    }
+                }
+            }
+        }
+    }
+    /* RESPONSIVE */
+    @include sm {
+        &.--center {
+            flex-direction: row-reverse;
+            & > .card__text {
+                & > .title {
+                    padding-left: 50px;
+                    & > .title__main {
+                        &::before {
+                            left: -20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @include xs {
+        flex-wrap: wrap;
+        --szText: 100%;
+        --mwText: 100%;
+        --szImg: 100%;
+        --pbImg: 55%;
+        &__text {
+            margin-bottom: 20px;
+        }
+        flex-direction: row-reverse;
+        &.--center {
+            & > .card__text {
+                & > .title {
+                    padding-left: initial;
+                    & > .title__main {
+                        &::before {
+                            left: initial;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @include xxs {
+        --szText: 100%;
+        --mwText: 100%;
+        --szImg: 100%;
+        --pbImg: 50%;
+    }
+}
+
+.bottom-slider {
+    @include box(100%);
+    background-color: $white-cl;
+    overflow: hidden;
+    & img {
+        height: 100%;
+        max-height: 100%;
+        width: initial;
+        margin-right: 15px;
+    }
+}
+
+.popup {
+    @include mid(flx);
+    flex-direction: column;
+    @include box(100vw, 100vh);
+    background: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 400;
+
+    visibility: hidden;
+    opacity: 0;
+    @include transition($t);
+    &__content {
+        background: $gray-cl;
+        @include box(60%, 0);
+        height: 0;
+        padding-bottom: 33.75%;
+        border: 2px double $white-cl;
+        position: relative;
+        & > iframe {
+            @include box(100%);
+            @include mid(abs);
+        }
+    }
+    &__close {
+        width: 3vw;
+        height: 3vw;
+        padding: 0.3vw;
+        background: $black-cl;
+        border-radius: 50%;
+        cursor: pointer;
+
+        position: absolute;
+        top: -1.5vw;
+        right: -1.5vw;
+
+        & img {
+            width: 100%;
+        }
+    }
+    &.--show {
+        visibility: visible;
+        opacity: 1;
+        @include transition($t);
+    }
+}
+
+.accordion {
+    @include box(100%, auto);
+    background: transparent;
+    &__item {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        margin-bottom: 20px;
+        &.--active {
+            & i {
+                @include transform(rotate(0deg));
+                @include transition($t);
+            }
+            & .accordion__answer {
+                display: block;
+            }
+        }
+    }
+    &__title {
+        @include box(100%, auto);
+        @include flex(space-between, center);
+        @include text(16px, pb, normal, 0.2px);
+        padding: 20px 25px;
+        cursor: pointer;
+
+        background: #f6f6f6;
+        @include transition($t);
+        & > i {
+            @include box(15px);
+            @include transform(rotate(-90deg));
+            @include transition($t);
+        }
+        &:hover {
+            background-color: $border-gray-cl;
+            @include transition($t);
+        }
+    }
+
+    &__answer {
+        display: none;
+        overflow: hidden;
+        & > p {
+            padding: 25px;
+        }
+    }
+}

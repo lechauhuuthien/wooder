@@ -1,0 +1,344 @@
+// css button, title, icon, elements...
+
+.btn {
+    --pdPrimary: 15px 50px;
+    --pdNotext: 15px 30px;
+    --mrText: 20px;
+    --fzText: 14px;
+    @include mid(flx);
+    padding: var(--pdPrimary);
+    width: max-content;
+
+    background-color: transparent;
+    @include transition($t);
+
+    cursor: pointer;
+    overflow: hidden;
+
+    & > span {
+        @include text(var(--fzText), pb, 58.33%, 2px);
+        text-transform: uppercase;
+    }
+
+    & > i {
+        @include mid(flx);
+        position: relative;
+        right: 0;
+        @include transition($t);
+    }
+
+    &.--primary {
+        border: 1px solid $white-cl;
+        & > span {
+            color: $white-cl;
+            margin-right: var(--mrText);
+        }
+        &:hover {
+            background: $yellow-cl;
+            & > i {
+                margin-left: 20px;
+                right: -10px;
+                @include transition($t);
+                & > img {
+                    @include transition($t);
+                    width: 10px;
+                }
+            }
+        }
+    }
+    &.--notext {
+        @extend .--primary;
+        padding: var(--pdNotext);
+        & > i {
+            margin: initial;
+            & > img {
+                @include transform(scale(1));
+                @include transition($t);
+            }
+        }
+        &:hover {
+            background: $yellow-cl;
+            & > i {
+                margin: initial;
+                right: initial;
+                & > img {
+                    @include transform(scale(1.2));
+                    @include transition($t);
+                }
+            }
+        }
+    }
+    &.--secondary {
+        padding: 15px 0;
+        color: $text-cl;
+        text-transform: uppercase;
+        position: relative;
+        &::before {
+            content: "";
+            @include box(37px, 2px);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: $yellow-cl;
+        }
+        & > span {
+            margin-right: 10px;
+        }
+    }
+    &.--play {
+        border: 1px solid $white-cl;
+        & > span {
+            color: $white-cl;
+        }
+        & > .btn__icon-cover {
+            @include box(14px);
+            @include mid(flx);
+            @include br(50%);
+            border: 1px solid $white-cl;
+            margin-right: 13px;
+            & > i {
+                @include box(5px);
+                @include mid(flx);
+                & > img {
+                    @include box(100%);
+                }
+            }
+        }
+    }
+    /* RESPONSIVE */
+    @include sm {
+        --pdPrimary: 11.26px 37.5px;
+        --pdNotext: 12.5px 25px;
+        --mrText: 15px;
+        --fzText: 13px;
+    }
+    @include xs {
+        --pdPrimary: 7.5px 25px;
+        --pdNotext: 10px 20px;
+        --mrText: 10px;
+        --fzText: 12px;
+    }
+    @include xxs {
+        --pdPrimary: 6px 20px;
+        --pdNotext: 7.5px 15px;
+        --mrText: 10px;
+        --fzText: 10px;
+    }
+}
+
+.number {
+    --szText: 42px;
+    --mr: 20px;
+    --mrLine: 15px;
+    --wLine: 42px;
+    @include mid(flx);
+    @include text(var(--szText), pb, normal, 1px);
+    color: $yellow-cl;
+    margin-right: var(--mr);
+    &::before {
+        content: "";
+        display: inline-block;
+        @include box(var(--wLine), 2px);
+        margin-right: var(--mrLine);
+        background-color: $yellow-cl;
+    }
+    /* RESPONSIVE */
+    @include xs {
+        --szText: 32px;
+        --mr: 15px;
+        --mrLine: 5px;
+        --wLine: 20px;
+    }
+    @include xxs {
+        --szText: 26px;
+        --mr: 10px;
+        --mrLine: 5px;
+        --wLine: 15px;
+    }
+}
+
+.dots {
+    --size: 10px;
+    --mr: 13px;
+    @include mid(flx);
+    margin-right: calc(var(--mr * -1));
+    & > li {
+        @include box(var(--size));
+        @include br(50%);
+        margin-right: var(--mr);
+        background: $dot-gray-cl;
+        @include transition($t);
+        cursor: pointer;
+        &.--active,
+        &:hover {
+            background: $yellow-cl;
+            @include transition($t);
+        }
+    }
+    /* RESPONSIVE */
+    @include xs {
+        --size: 7px;
+        --mr: 5px;
+    }
+    @include xxs {
+        --size: 5px;
+        --mr: 5px;
+    }
+}
+.title {
+    --szMain: 40px;
+    --mbMain: 25px;
+    --szSub: 16px;
+    --mtBtn: 25px;
+    --mWidth: 400px;
+    --pd: 100px;
+    --wBefore: 75px;
+    --topBefore: 20px;
+    --wCenter: 60%;
+    --wBeforeCenter: 36px;
+    --mbBeforeCenter: 30px;
+    @include box(100%, auto);
+    &__main {
+        @include text(var(--szMain), pb, normal, 0.7px);
+        color: $text-cl;
+        text-transform: uppercase;
+
+        margin-bottom: var(--mbMain);
+    }
+    &__sub {
+        @include text(var(--szSub), pr, 22px, 0.25px);
+        color: $subtext-cl;
+    }
+    &__button {
+        margin-top: var(--mtBtn);
+    }
+    &.--left {
+        @include flex(center, flex-start, column);
+        max-width: var(--mWidth);
+        position: relative;
+        padding-left: var(--pd);
+        & > p {
+            word-wrap: break-word;
+            text-align: left;
+        }
+        & > h2 {
+            &::before {
+                content: "";
+                @include box(var(--wBefore), 0.5px);
+                background-color: $text-cl;
+                position: absolute;
+                top: var(--topBefore);
+                left: 0;
+            }
+        }
+    }
+    &.--right {
+        @include flex(center, flex-end, column);
+        max-width: var(--mWidth);
+        position: relative;
+        padding-right: var(--pd);
+        & > p {
+            word-wrap: break-word;
+            text-align: right;
+        }
+        & > h2 {
+            &::before {
+                content: "";
+                @include box(var(--wBefore), 1px);
+                background-color: $text-cl;
+                position: absolute;
+                top: var(--topBefore);
+                right: 0;
+            }
+        }
+    }
+    &.--center {
+        @include flex(center, center, column);
+        @include box(var(--wCenter), auto);
+        max-width: var(--wCenter);
+        margin: 0 auto;
+        & > h2 {
+            margin-bottom: var(--mbBeforeCenter);
+            text-align: center;
+            position: relative;
+            &::before {
+                content: "";
+                @include box(var(--wBeforeCenter), 3px);
+                display: inline-block;
+                background-color: $yellow-cl;
+                position: absolute;
+                bottom: calc(var(--mbBeforeCenter) / 2 * -1);
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        & > p {
+            text-align: center;
+        }
+    }
+    @include sm {
+        --szMain: 28px;
+        --mbMain: 15px;
+        --szSub: 18px;
+        --mtBtn: 15px;
+        --mWidth: 300px;
+        --pd: 50px;
+        --wBefore: 40px;
+        --topBefore: 15px;
+        --wCenter: 80%;
+        --wBeforeCenter: 36px;
+        --mbBeforeCenter: 20px;
+        &__sub {
+            word-wrap: break-word;
+        }
+    }
+    @include xs {
+        --szMain: 25px;
+        --mbMain: 15px;
+        --szSub: 15px;
+        --mtBtn: 5px;
+        --mWidth: 100%;
+        --pd: 50px;
+        --wBefore: 65px;
+        --topBefore: 15px;
+        --wCenter: 100%;
+        --wBeforeCenter: 36px;
+        --mbBeforeCenter: 20px;
+        &.--left,
+        &.--right {
+            @include flex(center, flex-start, column);
+            max-width: var(--mWidth);
+            position: relative;
+            padding: 0;
+            & > p {
+                word-wrap: break-word;
+                text-align: left;
+            }
+            & > h2 {
+                &::before {
+                    content: "";
+                    @include box(var(--wBefore), 1px);
+                    background-color: $text-cl;
+                    position: absolute;
+                    top: calc(var(--szMain) + (var(--mbMain) / 2));
+                    left: 0;
+                }
+            }
+        }
+    }
+}
+.play {
+    &.--yellow {
+        @include box(55px);
+        @include mid(flx);
+        border-radius: 50%;
+        background: $yellow-cl;
+        opacity: 0.7;
+        & > i {
+            @include mid(flx);
+            & > img {
+                @include box(auto);
+            }
+        }
+    }
+}

@@ -1,0 +1,208 @@
+// css header
+header {
+    --heightHeader: 80px;
+    --heightLogo: 170px;
+    --widthMobileBtn: 40px;
+    --heightMobileBtn: 20px;
+    width: 100%;
+    height: var(--heightHeader);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 300;
+    background: transparent;
+    @include transition(0.3s);
+
+    &.--over {
+        background: $black-cl;
+        @include transition(0.3s);
+    }
+
+    .container-fluid {
+        height: 100%;
+        @include flex(space-between, center);
+        .logo {
+            img {
+                width: var(--heightLogo);
+            }
+            & .hidden {
+                display: none;
+            }
+        }
+        .menu {
+            height: 100%;
+            @include mid(flx);
+            @include mid(abs);
+
+            & > a {
+                @include text(15px, pb, var(--heightHeader), normal);
+                color: $white-cl;
+                text-transform: uppercase;
+
+                display: inline-block;
+                margin: 0 35px;
+                position: relative;
+
+                &:after {
+                    content: "";
+                    @include box(100%, 1px);
+                    background: $white-cl;
+                    position: absolute;
+                    left: 0;
+                    bottom: 20px;
+                    @include transform(scaleX(0));
+                    @include transform-origin(left center);
+                    @include transition($t);
+                }
+                &:hover,
+                &.--active {
+                    &::after {
+                        @include transform(scaleX(1));
+                        @include transform-origin(right center);
+                        @include transition($t $cubic);
+                    }
+                }
+            }
+        }
+        .lang {
+            @include mid(flx);
+            position: relative;
+            padding: 10px 0;
+            &__current {
+                @include mid(flx);
+                @include text(15px, pb, normal, normal);
+                color: $white-cl;
+                cursor: pointer;
+                & > span {
+                    margin-right: 5px;
+                }
+                & > i {
+                    @include box(10px);
+                    @include mid(flx);
+                }
+            }
+            &__option {
+                @include flex(center, center, column);
+                width: 100px;
+                padding: 10px;
+                background-color: rgba(0, 0, 0, 0.5);
+
+                position: absolute;
+                top: 100%;
+                right: 0;
+
+                visibility: hidden;
+                opacity: 0;
+                @include transition($t);
+
+                & > a {
+                    @include text(15px, pb, normal, normal);
+                    color: $white-cl;
+                    text-transform: uppercase;
+                    text-align: center;
+
+                    @include transform($t);
+                    width: 100%;
+                    padding: 5px 0;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.3);
+                        color: $yellow-cl;
+                        @include transition($t $cubic);
+                    }
+                }
+                &.--active {
+                    visibility: visible;
+                    opacity: 1;
+                    @include transition($t);
+                }
+            }
+            // &:hover .lang__option {
+            //     @include flex(flex-start, flex-end, column);
+            // }
+        }
+        .right {
+            @include mid(flx);
+        }
+        .mobile-hambtn {
+            display: none;
+            @include box(var(--widthMobileBtn), var(--heightMobileBtn));
+            position: relative;
+            cursor: pointer;
+            z-index: 300;
+            span {
+                @include box(100%, 2px);
+                display: block;
+                background: $yellow-cl;
+                position: absolute;
+                top: 50%;
+                @include transform(translateY(-50%));
+                @include transition($t);
+            }
+            &::before,
+            &::after {
+                content: "";
+                @include box(100%, 2px);
+                display: block;
+                background: $yellow-cl;
+                @include transform(rotate(0deg) translateY(0px));
+                @include transition($t);
+            }
+            &::after {
+                position: absolute;
+                bottom: 0;
+            }
+            &.clicked {
+                &::before {
+                    @include transform(rotate(45deg) translate(6px, 8px));
+                    @include transition($t);
+                }
+                span {
+                    opacity: 0;
+                    @include transition($t);
+                }
+                &::after {
+                    @include transform(rotate(-45deg) translate(4px, -8px));
+                    @include transition($t);
+                }
+            }
+        }
+    }
+    @include sm {
+        .container-fluid {
+            .menu {
+                display: none;
+            }
+            .mobile-hambtn {
+                display: block;
+                margin-left: 20px;
+            }
+        }
+    }
+    @include sm {
+        .logo {
+            z-index: 200;
+        }
+    }
+    @include xs {
+        --heightHeader: 60px;
+        --heightLogo: 120px;
+        --widthMobileBtn: 25px;
+        --heightMobileBtn: 15px;
+    }
+    // @include xxs {
+    //     --heightLogo: 70px;
+    //     --widthMobileBtn: 25px;
+    //     --heightMobileBtn: 12.5px;
+    // }
+    @include maxW(1024px) {
+        .container-fluid {
+            .menu {
+                & > li > a {
+                    margin: 0 25px;
+                }
+            }
+        }
+    }
+}

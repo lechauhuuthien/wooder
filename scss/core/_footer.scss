@@ -1,0 +1,76 @@
+// css footer
+.footer {
+    @include box(100%, 55px);
+    max-height: 55px;
+    background-color: $black-cl;
+    overflow: hidden;
+    position: relative;
+    & > .container {
+        @include box(100%);
+        @include flex(space-between, center);
+        position: relative;
+    }
+    &__copyright {
+        @include text(12px, pr, normal, 0.5px);
+        color: $footer-text-cl;
+    }
+    &__logo {
+        @include mid(abs);
+        & > img {
+            @include box(fit-content);
+        }
+    }
+    &__to-top {
+        @extend .footer__copyright;
+        text-transform: uppercase;
+    }
+    &__btn-to-top {
+        @include mid(flx);
+        @include box(40px);
+        @include text(12px, pb, normal, 0.5px);
+        text-transform: uppercase;
+        background: $black-cl;
+        color: $white-cl;
+        border-radius: 5px;
+        border: 1px solid $white-cl;
+        outline: none;
+
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+
+        visibility: hidden;
+        opacity: 0;
+        @include transition($t);
+        &.--show {
+            visibility: visible;
+            opacity: 1;
+            @include transition($t);
+            z-index: 10;
+        }
+    }
+
+    @include xs {
+        @include box(100vw, 60px);
+        max-height: 100px;
+        & > .container {
+            @include flex(space-between, center, column-reverse);
+            padding: 10px 0;
+        }
+        &__copyright {
+            @include mid(abs);
+            top: 70%;
+            text-align: center;
+            font-size: 10px;
+        }
+        &__logo {
+            top: 40%;
+            & > img {
+                @include box(120px, auto);
+            }
+        }
+        &__to-top {
+            display: none;
+        }
+    }
+}

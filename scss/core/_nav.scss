@@ -1,0 +1,38 @@
+// css navigator (Menu)
+nav {
+    display: none;
+    @include sm {
+        @include box(100vw, 100vh);
+        @include mid(flx);
+        background: $black-cl;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        @include transition(opacity $t);
+
+        ul {
+            @include mid(flx);
+            flex-direction: column;
+            li {
+                a {
+                    @include text(20px, pb, normal, normal);
+                    color: $white-cl;
+                    text-transform: uppercase;
+                }
+
+                padding: 20px 0;
+            }
+        }
+        &.--active {
+            visibility: visible;
+            opacity: 1;
+            // pointer-events: auto; cmt đợi js
+            @include transition(opacity $t);
+        }
+    }
+}
